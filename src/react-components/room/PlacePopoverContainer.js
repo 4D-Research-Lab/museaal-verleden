@@ -9,12 +9,16 @@ import { ReactComponent as ObjectIcon } from "../icons/Object.svg";
 import { ReactComponent as AvatarIcon } from "../icons/Avatar.svg";
 import { ReactComponent as SceneIcon } from "../icons/Scene.svg";
 import { ReactComponent as UploadIcon } from "../icons/Upload.svg";
+import { ReactComponent as EuropeanaIcon } from "../icons/Europeana.svg";
+import { ReactComponent as DynamischeArchiefIcon } from "../icons/DynamischeArchief.svg";
 import { PlacePopoverButton } from "./PlacePopover";
 import { ObjectUrlModalContainer } from "./ObjectUrlModalContainer";
 import configs from "../../utils/configs";
 import { FormattedMessage } from "react-intl";
 import { anyEntityWith } from "../../utils/bit-utils";
 import { MyCameraTool } from "../../bit-components";
+import EuropeanaBrowser from "./EuropeanaBrowser";
+import DynamischeArchiefBrowser from "./DynamischeArchiefBrowser";
 
 export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistoriedDialog, hubChannel }) {
   const [items, setItems] = useState([]);
@@ -84,6 +88,20 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             color: "accent3",
             label: <FormattedMessage id="place-popover.item-type.upload" defaultMessage="Upload" />,
             onSelect: () => showNonHistoriedDialog(ObjectUrlModalContainer, { scene })
+          },
+          {
+            id: "europeana",
+            icon: EuropeanaIcon,
+            color: "accent4",
+            label: <FormattedMessage id="place-popover.item-type.europeana" defaultMessage="Europeana" />,
+            onSelect: () => showNonHistoriedDialog(EuropeanaBrowser, { scene })
+          },
+          {
+            id: "dynamischarchief",
+            icon: DynamischeArchiefIcon,
+            color: "accent4",
+            label: <FormattedMessage id="place-popover.item-type.dynamischarchief" defaultMessage="DA" />,
+            onSelect: () => showNonHistoriedDialog(DynamischeArchiefBrowser, { scene })
           }
         ];
       }

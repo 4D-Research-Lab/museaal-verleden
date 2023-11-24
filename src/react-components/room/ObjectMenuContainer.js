@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from 'react';
 import PropTypes from "prop-types";
 import { ObjectMenu, ObjectMenuButton } from "./ObjectMenu";
 import { useObjectList } from "./useObjectList";
@@ -126,6 +126,12 @@ export function ObjectMenuContainer({ hubChannel, scene, onOpenProfile, onGoToOb
     useObjectList();
 
   let menuItems;
+  let metadata = activeObject?.el?.userData?.metadata;
+
+  // The useEffect hook will run whenever `activeObject` changes.
+  useEffect(() => {
+    console.log('Current active object:', activeObject);
+  }, [activeObject]); // The second argument is a dependency array that tells React when to re-run the effect
 
   if (isMe(activeObject)) {
     menuItems = <MyMenuItems onOpenProfile={onOpenProfile} />;
@@ -154,6 +160,7 @@ export function ObjectMenuContainer({ hubChannel, scene, onOpenProfile, onGoToOb
       onPrevObject={selectPrevObject}
       onToggleLights={toggleLights}
       lightsEnabled={lightsEnabled}
+      metadata={metadata}
     >
       {menuItems}
     </ObjectMenu>

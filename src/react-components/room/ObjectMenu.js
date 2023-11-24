@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { joinChildren } from "../misc/joinChildren";
@@ -11,12 +11,18 @@ import { ReactComponent as ArrowForwardIcon } from "../icons/ArrowForward.svg";
 import { ReactComponent as LightbulbIcon } from "../icons/Lightbulb.svg";
 import { ReactComponent as LightbulbOutlineIcon } from "../icons/LightbulbOutline.svg";
 
+
 export function ObjectMenuButton({ children, className, ...rest }) {
   return (
     <IconButton compactSm className={classNames(styles.objectMenuButton, className)} {...rest}>
       {children}
     </IconButton>
   );
+}
+
+function formatDate(isoString) {
+  const date = new Date(isoString);
+  return date.toISOString().split('T')[0];
 }
 
 ObjectMenuButton.propTypes = {
@@ -34,8 +40,11 @@ export function ObjectMenu({
   currentObjectIndex,
   objectCount,
   onToggleLights,
-  lightsEnabled
+  lightsEnabled,
+  isAvatar,
+  metadata
 }) {
+
   return (
     <>
       <IconButton className={styles.backButton} onClick={onBack}>
@@ -63,23 +72,68 @@ export function ObjectMenu({
               )}
             </IconButton>
           </div>
+          <div className={styles.metadata}>
+            {metadata && (
+              <>
+                {metadata.api == 'europeana' && (
+                  <>
+                    <div><b>Title:</b> {metadata.title}</div>
+                    <div><b>Provider:</b> {metadata.provider}</div>
+                    <div><b>Date:</b> {metadata.date}</div>
+                    <div><b>Date of creation:</b> {formatDate(metadata.dateOfCreation)}</div>
+                    <div><b>Date of update:</b> {formatDate(metadata.dateOfUpdate)}</div>
+                    <div><a href={metadata.link} target="_blank" rel="noopener noreferrer"><b>Link</b></a></div>
+                  </>
+                )}
+                {metadata.api == 'da' && (
+                  <>
+                    <div><b>Title:</b> {metadata.title}</div>
+                    <div><b>User:</b> {metadata.user}</div>
+                    <div><b>Year made:</b> {metadata.yearMade}</div>
+                    {metadata.provenance !== "" && (
+                      <div>
+                        <div><b>Provenance</b></div>
+                        <div>{metadata.provenance}</div>
+                      </div>
+                    )}
+                    {metadata.description !== "" && (
+                      <div>
+                        <div><b>Description</b></div>
+                        <div className={styles.metadataContent}dangerouslySetInnerHTML={{ __html: metadata.description }} />
+                      </div>
+                    )}
+                    {metadata.curatorsComment !== "" && (
+                      <div>
+                        <div><b>Curators comment</b></div>
+                        <div className={styles.metadataContent} dangerouslySetInnerHTML={{ __html: metadata.curatorsComment }}/>
+                      </div>
+                    )}
+                        <div><a href={metadata.link} target="_blank" rel="noopener noreferrer"><b>Link</b></a></div>
+                  </>
+                )}
+              </>
+            )}
+          </div>
           <div className={styles.menu}>
             {joinChildren(children, () => (
               <div className={styles.separator} />
             ))}
           </div>
         </div>
-        <div className={styles.pagination}>
-          <IconButton onClick={onPrevObject}>
-            <ArrowBackIcon width={24} height={24} />
-          </IconButton>
-          <p>
-            {currentObjectIndex + 1}/{objectCount}
-          </p>
-          <IconButton onClick={onNextObject}>
-            <ArrowForwardIcon width={24} height={24} />
-          </IconButton>
-        </div>
+        {!isAvatar && (
+          <div className={styles.pagination}>
+            <IconButton onClick={onPrevObject}>
+              <ArrowBackIcon width={24} height={24} />
+            </IconButton>
+            <p>
+              {currentObjectIndex + 1}/{objectCount}
+            </p>
+            <IconButton onClick={onNextObject}>
+              <ArrowForwardIcon width={24} height={24} />
+            </IconButton>
+          </div>
+        )}
+
       </div>
     </>
   );
@@ -95,5 +149,7 @@ ObjectMenu.propTypes = {
   onClose: PropTypes.func,
   onBack: PropTypes.func,
   onToggleLights: PropTypes.func,
-  lightsEnabled: PropTypes.bool
+  lightsEnabled: PropTypes.bool,
+  isAvatar: PropTypes.bool,
+  metadata: PropTypes.object
 };

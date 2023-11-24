@@ -233,9 +233,16 @@ export default class SceneEntryManager {
     };
 
     this.scene.addEventListener("add_media", e => {
-      const contentOrigin = e.detail instanceof File ? ObjectContentOrigins.FILE : ObjectContentOrigins.URL;
+      const { file, metadata } = e.detail;
+      const contentOrigin = file instanceof File ? ObjectContentOrigins.FILE : ObjectContentOrigins.URL;
+      
+      const spawnedObject = spawnMediaInfrontOfPlayer(file, contentOrigin);
 
-      spawnMediaInfrontOfPlayer(e.detail, contentOrigin);
+      if (spawnedObject) {
+        spawnedObject.userData = spawnedObject.userData || {}; // Ensure userData exists
+        spawnedObject.userData.metadata = metadata;
+      }
+      
     });
 
     this.scene.addEventListener("object_spawned", e => {
@@ -285,7 +292,7 @@ export default class SceneEntryManager {
           for (const file of files) {
             spawnMediaInfrontOfPlayer(file, ObjectContentOrigins.CLIPBOARD);
           }
-        }
+        } 
       });
 
       let lastDebugScene;

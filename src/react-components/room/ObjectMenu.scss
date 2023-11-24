@@ -1,6 +1,7 @@
 @use "../styles/theme.scss";
 
-:local(.back-button), :local(.lights-button) {
+:local(.back-button),
+:local(.lights-button) {
   position: absolute;
   top: 16px;
   pointer-events: auto;
@@ -9,13 +10,18 @@
     color: theme.$overlay-text-color;
   }
 
-  @media(min-width: theme.$breakpoint-lg) and (min-height: theme.$breakpoint-vr) {
+  @media (min-width: theme.$breakpoint-lg) and (min-height: theme.$breakpoint-vr) {
     display: none;
   }
 }
 
 :local(.back-button) {
   left: 8px;
+}
+
+:local(.metadata) {
+  font-size: 11px;
+  text-align: center;
 }
 
 :local(.lights-button) {
@@ -30,6 +36,7 @@
   display: flex;
   flex-direction: column;
   pointer-events: auto;
+
 }
 
 :local(.object-menu) {
@@ -51,7 +58,7 @@
   align-items: center;
   justify-content: center;
 
-  @media(min-width: theme.$breakpoint-lg) and (min-height: theme.$breakpoint-vr) {
+  @media (min-width: theme.$breakpoint-lg) and (min-height: theme.$breakpoint-vr) {
     display: flex;
   }
 }
@@ -66,12 +73,12 @@
   right: 16px;
 }
 
-
 :local(.menu) {
   display: flex;
   padding: 16px;
+  justify-content: center;
 
-  @media(min-width: theme.$breakpoint-lg) and (min-height: theme.$breakpoint-vr) {
+  @media (min-width: theme.$breakpoint-lg) and (min-height: theme.$breakpoint-vr) {
     padding-top: 0;
   }
 }
@@ -100,13 +107,50 @@
     color: theme.$overlay-text-color;
   }
 
-  @media(min-width: theme.$breakpoint-lg) and (min-height: theme.$breakpoint-vr) {
+  @media (min-width: theme.$breakpoint-lg) and (min-height: theme.$breakpoint-vr) {
     display: none;
+  }
+
+
+}
+
+:local(.metadataInline) {
+  display: flex;
+  justify-content: center; // This will center the items on the line
+  align-items: center; // This will vertically align the items if they have different heights
+  margin-bottom: 5px;
+
+  // Use media queries to ensure it stacks on smaller screens if necessary
+  @media (max-width: theme.$breakpoint-sm) {
+    flex-direction: column;
   }
 }
 
-:global(.keyboard-user)  {
-  :local(.back-button):focus, :local(.object-menu-container) :focus {
-    box-shadow: 0 0 0 3px theme.$overlay-outline-color;
+:local(.metadataField) {
+  margin-right: 10px; // Space between fields
+  height: 20px;
+
+  &:last-child {
+    margin-right: 0; // Remove margin for the last item
+  }
+}
+
+:local(.metadataTitle) {
+  font-weight: bold;
+}
+
+:local(.metadataContent) {
+  padding-right: 10px;
+  padding-left: 10px;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+:global(.keyboard-user) {
+
+  :local(.back-button):focus,
+  :local(.object-menu-container) :focus {
+    box-shadow: 0 0 0 3px theme.$white;
   }
 }
