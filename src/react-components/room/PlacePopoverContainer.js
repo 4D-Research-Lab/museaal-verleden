@@ -19,6 +19,7 @@ import { anyEntityWith } from "../../utils/bit-utils";
 import { MyCameraTool } from "../../bit-components";
 import EuropeanaBrowser from "./EuropeanaBrowser";
 import DynamischeArchiefBrowser from "./DynamischeArchiefBrowser";
+import { GridPlacement} from "../../GridPlacement"
 
 export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistoriedDialog, hubChannel }) {
   const [items, setItems] = useState([]);
@@ -102,6 +103,13 @@ export function PlacePopoverContainer({ scene, mediaSearchStore, showNonHistorie
             color: "accent4",
             label: <FormattedMessage id="place-popover.item-type.dynamischarchief" defaultMessage="DA" />,
             onSelect: () => showNonHistoriedDialog(DynamischeArchiefBrowser, { scene })
+          },
+          {
+            id: "imagegrid",
+            icon: ObjectIcon,
+            color: "accent3",
+            label: <FormattedMessage id="place-popover.item-type.imagegrid" defaultMessage="Grid" />,
+            onSelect: () => GridPlacement(APP.world, scene)
           }
         ];
       }

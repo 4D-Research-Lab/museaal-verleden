@@ -1,6 +1,6 @@
 import { Component } from "bitecs";
 import { HubsWorld } from "../app";
-import { NetworkedMediaFrame, NetworkedTransform, NetworkedVideo } from "../bit-components";
+import { NetworkedMediaFrame, NetworkedMediaGrid, NetworkedTransform, NetworkedVideo } from "../bit-components";
 import { defineNetworkSchema } from "../utils/define-network-schema";
 import type { EntityID, CursorBuffer } from "./networking-types";
 
@@ -17,6 +17,7 @@ interface NetworkSchema {
 
 export const schemas: Map<Component, NetworkSchema> = new Map();
 schemas.set(NetworkedMediaFrame, defineNetworkSchema(NetworkedMediaFrame));
+schemas.set(NetworkedMediaGrid, defineNetworkSchema(NetworkedMediaGrid));
 schemas.set(NetworkedTransform, defineNetworkSchema(NetworkedTransform));
 schemas.set(NetworkedVideo, defineNetworkSchema(NetworkedVideo));
 export const networkableComponents = Array.from(schemas.keys());

@@ -141,6 +141,19 @@ AFRAME.GLTFModelPlus.registerComponent("media-frame", "media-frame", (el, _compo
   el.object3D.add(APP.world.eid2obj.get(eid));
 });
 
+AFRAME.GLTFModelPlus.registerComponent("media-grid", "media-grid", (el, _componentName, componentData) => {
+  const eid = renderAsEntity(APP.world, <entity mediaGrid={componentData} />);
+
+  addComponent(APP.world, Networked, eid);
+
+  const networkedEl = findAncestorWithComponent(el, "networked");
+  const rootNid = (networkedEl && networkedEl.components.networked.data.networkId) || "scene";
+  Networked.id[eid] = APP.getSid(`${rootNid}.${el.object3D.children[0].userData.gltfIndex}`);
+  APP.world.nid2eid.set(Networked.id[eid], eid);
+
+  el.object3D.add(APP.world.eid2obj.get(eid));
+});
+
 AFRAME.GLTFModelPlus.registerComponent("media", "media", (el, componentName, componentData) => {
   if (componentData.id) {
     el.setAttribute("networked", {

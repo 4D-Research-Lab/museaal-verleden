@@ -25,6 +25,13 @@ export const NetworkedMediaFrame = defineComponent({
 });
 NetworkedMediaFrame.capturedNid[$isStringType] = true;
 
+
+export const NetworkedMediaGrid = defineComponent({
+  capturedNid: Types.ui32,
+  scale: [Types.f32, 3]
+});
+NetworkedMediaGrid.capturedNid[$isStringType] = true;
+
 export const MediaFrame = defineComponent({
   capturedNid: Types.ui32,
   scale: [Types.f32, 3],
@@ -33,6 +40,20 @@ export const MediaFrame = defineComponent({
   preview: Types.eid,
   previewingNid: Types.eid
 });
+
+export const MediaGrid = defineComponent({
+  capturedNid: Types.ui32,
+  scale: [Types.f32, 3],
+  mediaType: Types.ui8,
+  bounds: [Types.f32, 3],
+  preview: Types.eid,
+  previewingNid: Types.eid
+});
+
+export const Grid = defineComponent({
+  rows: Types.f32
+});
+
 export const Text = defineComponent();
 export const ReflectionProbe = defineComponent();
 export const Slice9 = defineComponent({

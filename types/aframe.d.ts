@@ -62,7 +62,7 @@ declare module "aframe" {
     gainSystem: GainSystem;
     environmentSystem: EnvironmentSystem;
     nameTagSystem: NameTagVisibilitySystem;
-
+    gridSystem: GridSystem;
     DOMContentDidLoad: bool;
   }
 

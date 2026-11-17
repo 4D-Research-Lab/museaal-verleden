@@ -60,6 +60,11 @@ import { sceneLoadingSystem } from "../bit-systems/scene-loading";
 import { networkDebugSystem } from "../bit-systems/network-debug";
 import qsTruthy from "../utils/qs_truthy";
 
+// CUSTOM SYSTEMS
+// import { mediaGridSystem } from "./bit-media-grid";
+import { GridSystem } from "./grid";
+import { mediaGridSystem } from "./bit-media-grid";
+
 declare global {
   interface Window {
     $S: HubsSystems;
@@ -111,6 +116,7 @@ AFRAME.registerSystem("hubs-systems", {
     this.shadowSystem = new ShadowSystem(this.el);
     this.inspectYourselfSystem = new InspectYourselfSystem();
     this.emojiSystem = new EmojiSystem(this.el);
+    // this.gridSystem = new GridSystem(this.el);
     this.audioZonesSystem = new AudioZonesSystem();
     this.gainSystem = new GainSystem();
     this.environmentSystem = new EnvironmentSystem(this.el);
@@ -164,6 +170,8 @@ export function mainTick(xrFrame: XRFrame, renderer: WebGLRenderer, scene: Scene
     aframeSystems[systemNames[i]].tick(t, dt);
   }
 
+  mediaGridSystem(world);
+
   networkReceiveSystem(world);
   onOwnershipLost(world);
   sceneLoadingSystem(world, hubsSystems.environmentSystem);
@@ -180,6 +188,7 @@ export function mainTick(xrFrame: XRFrame, renderer: WebGLRenderer, scene: Scene
   buttonSystems(world);
   constraintsSystem(world, hubsSystems.physicsSystem);
 
+  // hubsSystems.gridSystem.tick(aframeSystems.userinput);
   // We run this earlier in the frame so things have a chance to override properties run by animations
   hubsSystems.animationMixerSystem.tick(dt);
 

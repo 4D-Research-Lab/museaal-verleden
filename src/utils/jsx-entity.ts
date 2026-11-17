@@ -35,6 +35,7 @@ import {
 } from "../bit-components";
 import { inflateMediaLoader } from "../inflators/media-loader";
 import { inflateMediaFrame } from "../inflators/media-frame";
+import { inflateMediaGrid } from "../inflators/media-grid";
 import { GrabbableParams, inflateGrabbable } from "../inflators/grabbable";
 import { inflateImage } from "../inflators/image";
 import { inflateVideo } from "../inflators/video";
@@ -45,6 +46,7 @@ import { inflateSlice9 } from "../inflators/slice9";
 import { inflateText } from "../inflators/text";
 import { inflateEnvironmentSettings } from "../inflators/environment-settings";
 import { inflateReflectionProbe, ReflectionProbeParams } from "../inflators/reflection-probe";
+import { inflateGrid } from "../inflators/gridInflator";
 import { HubsWorld } from "../app";
 import { Group, Object3D, Texture, VideoTexture } from "three";
 import { AlphaMode } from "./create-image-mesh";
@@ -282,6 +284,8 @@ export interface JSXComponentData extends ComponentData {
   sceneRoot?: boolean;
   sceneLoader?: { src: string };
   mediaFrame?: any;
+  mediaGrid?: any;
+  grid?: any;
   object3D?: any;
   text?: any;
   model?: ModelParams;
@@ -300,9 +304,9 @@ declare global {
   namespace createElementEntity.JSX {
     interface IntrinsicElements {
       entity: JSXComponentData &
-        Attrs & {
-          children?: IntrinsicElements[];
-        };
+      Attrs & {
+        children?: IntrinsicElements[];
+      };
     }
 
     interface ElementChildrenAttribute {
@@ -352,6 +356,8 @@ const jsxInflators: Required<{ [K in keyof JSXComponentData]: InflatorFn }> = {
 
   // inflators that create Object3Ds
   mediaFrame: inflateMediaFrame,
+  mediaGrid: inflateMediaGrid,
+  grid: inflateGrid,
   object3D: addObject3DComponent,
   slice9: inflateSlice9,
   text: inflateText,
